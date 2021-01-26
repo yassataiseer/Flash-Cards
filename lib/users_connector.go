@@ -1,4 +1,4 @@
-package lib
+package main
 
 import(
 	"database/sql"
@@ -12,11 +12,13 @@ func add_user( Username string,  password string){
 	if err != nil {
 		panic(err)
 	}
-	
 	defer db.Close()
 	add,err := db.Query("INSERT INTO Users (Username,Password) VALUES (?,?)", (Username),(password))
 	if err != nil {
 		panic(err)
     }
     fmt.Println(add)
+}
+func main(){
+add_user("Hareem Taiseer", "Hareem Taiseer")
 }
