@@ -22,13 +22,24 @@ func add_user( Username string,  password string) bool{
     defer db.Close()
     return true 
 }
-func grab_user(){
+func check_if_user_exist( user string, password string) bool{
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {
 		panic(err)
-	}
-	defer db.Close()
+    }
+    var exists bool
+    var query string
+    query = fmt.Sprintf("SELECT EXISTS(SELECT Username FROM Users WHERE Username = '%s' AND Password = '%s')", (user),(password))
+    fmt.Println(query)
+    row := db.QueryRow(query).Scan(&exists)
+	if err != nil && err != sql.ErrNoRows {
+        panic(err)
+    }
+    fmt.Println(row)
+    defer db.Close()
+    return exists
 }
 func main(){
+fmt.Println(check_if_user_exist("Yassa Taiseer","yassa123"))
 }
