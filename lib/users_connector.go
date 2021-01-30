@@ -26,9 +26,7 @@ func add_user( Username string,  password string) bool{
 func sign_user_in( user string, password string) bool{
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
-	if err != nil {
-		panic(err)
-    }
+	if err != nil {panic(err)}
     var exists bool
     var query string
     query = fmt.Sprintf("SELECT EXISTS(SELECT Username FROM Users WHERE Username = '%s' AND Password = '%s')", (user),(password))
