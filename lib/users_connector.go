@@ -5,6 +5,17 @@ import(
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 )
+type user_data struct {
+    Username1 string
+    Password1 string
+}
+
+
+
+
+
+
+
 //Adds user+password into Users table
 func add_user( Username string,  password string) bool{
 	fmt.Println("Starting server")
