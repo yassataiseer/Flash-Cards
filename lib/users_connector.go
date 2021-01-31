@@ -6,14 +6,8 @@ import(
 	_ "github.com/go-sql-driver/mysql"
 )
 type user_data struct {
-    Username1 string
-    Password1 string
+    Username1 ,Password1 string
 }
-
-
-
-
-
 
 
 //Adds user+password into Users table
@@ -67,6 +61,33 @@ func existing_user(user string) bool{
     return exists
 }
 
+func grab_user_data() []user_data{
+    fmt.Println("Starting server")
+	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
+    if err != nil {panic(err)}
+    var query string
+    query = fmt.Sprintf("SELECT * FROM Users")
+    rows,err := db.Query(query)
+    if err != nil {panic(err)}
+    user := user_data{}
+    users := []user_data{}
+    var Username string
+    var Password string
+    var id int
+    for rows.Next(){
+        err := rows.Scan(&Username,&Password,&id)
+        if err != nil {panic(err)}
+        user.Username1 = Username
+        user.Password1 = Password
+
+        users = append(users, user)
+    }
+    fmt.Println(users) 
+    defer db.Close()
+    return users
+
+}
+
 func main(){
-//fmt.Println(existing_user("Yassa Taiseer"))
+fmt.Println(grab_user_data())
 }
