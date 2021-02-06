@@ -21,8 +21,12 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 	var tpl = template.Must(template.ParseFiles("templates/sign-up.html"))
 	tpl.Execute(w, nil)
  }
+ func login(w http.ResponseWriter, r*http.Request){
+	var tpl = template.Must(template.ParseFiles("templates/login.html"))
+	tpl.Execute(w, nil)
+ }
 func main(){
-	http.HandleFunc("/", sign_up)
-
+	http.HandleFunc("/", login)
+	http.HandleFunc("/sign-up", sign_up)
 	http.ListenAndServe(":8000",nil)
 }
