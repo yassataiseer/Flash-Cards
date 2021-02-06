@@ -13,7 +13,7 @@ type user_data struct {
 //Adds user+password into Users table
 func add_user( Username string,  password string) bool{
 	fmt.Println("Starting server")
-	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
+	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {
 		panic(err)
 	}
@@ -30,7 +30,7 @@ func add_user( Username string,  password string) bool{
 //Checks if username+password exists
 func sign_user_in( user string, password string) bool{
 	fmt.Println("Starting server")
-	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
+	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {panic(err)}
     var exists bool
     var query string
@@ -47,7 +47,7 @@ func sign_user_in( user string, password string) bool{
 //Checks to see if user already exists
 func existing_user(user string) bool{
     fmt.Println("Starting server")
-	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
+	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {panic(err)}
     var exists bool
     var query string
@@ -63,7 +63,7 @@ func existing_user(user string) bool{
 
 func grab_user_data() []user_data{
     fmt.Println("Starting server")
-	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
+	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
     if err != nil {panic(err)}
     var query string
     query = fmt.Sprintf("SELECT * FROM Users")
