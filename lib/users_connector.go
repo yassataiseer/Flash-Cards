@@ -82,7 +82,6 @@ func grab_user_data() []user_data{
 
         users = append(users, user)
     }
-    fmt.Println(users) 
     defer db.Close()
     return users
 
