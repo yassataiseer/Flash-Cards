@@ -1,4 +1,4 @@
-package main
+package lib
 
 import(
 	"database/sql"
@@ -88,4 +88,5 @@ func grab_user_data() []user_data{
 }
 
 func main(){
+fmt.Println(grab_user_data())
 }
