@@ -83,7 +83,7 @@ func grab_user_data() []user_data{
         users = append(users, user)
     }
     defer db.Close()
-    return users
+    return (users)
 
 }
 
