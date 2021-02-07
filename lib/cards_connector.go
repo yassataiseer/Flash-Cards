@@ -1,4 +1,4 @@
-package lib
+package lib 
 
 import(
 	"database/sql"
@@ -13,9 +13,19 @@ type card_data struct {
 }
 
 //Will grab all flashcard's data for the certain user
-func Grab_card_data(Username string){
+func Add_card(Username string, Question string, Answer string) bool{
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {panic(err)}
-	fmt.Println(db)
+	add,err := db.Query("INSERT INTO Cards (Username,Question,Answer) VALUES (?,?,?)", (Username),(Question),(Answer)) 
+    //Takes username and passwords and adds them to the db
+	if err != nil {
+        panic(err)
+        return false
+    }
+    fmt.Println(add)
+    defer db.Close()
+    return true 
+}
+func main(){
 }
