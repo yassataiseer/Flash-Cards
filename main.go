@@ -1,11 +1,11 @@
 package main
-
 import(
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"html/template"
 	"net/http"
+	L "./lib"
 )
 type user_data struct {
     Username1 ,Password1 string
@@ -34,7 +34,12 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 	var username  = r.Form["Username"]
 	var pswd  = r.Form["pswrd"]
 	fmt.Println(username[0],pswd)
- }
+	var proceed bool = L.Sign_user_in(username[0],pswd[0])
+	if proceed == true{
+		var tpl = template.Must(template.ParseFiles("templates/index.html"))
+		tpl.Execute(w,nil)
+	}
+}
 func main(){
 	http.HandleFunc("/", login)
 	http.HandleFunc("/sign-up", sign_up)

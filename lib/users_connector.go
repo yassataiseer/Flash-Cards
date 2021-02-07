@@ -28,7 +28,7 @@ func add_user( Username string,  password string) bool{
     return true 
 }
 //Checks if username+password exists
-func sign_user_in( user string, password string) bool{
+func Sign_user_in( user string, password string) bool{
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {panic(err)}
@@ -61,7 +61,7 @@ func existing_user(user string) bool{
     return exists
 }
 
-func grab_user_data() []user_data{
+func Grab_user_data() []user_data{
     fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
     if err != nil {panic(err)}
