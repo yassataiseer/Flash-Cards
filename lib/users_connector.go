@@ -94,5 +94,3 @@ func Grab_user_data() []user_data{
 
 }
 
-func main(){
-}
