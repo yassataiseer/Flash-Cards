@@ -18,7 +18,7 @@ func Add_user( Username string,  password string) bool{
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {
 		panic(err)
-	}
+	}  
 	add,err := db.Query("INSERT INTO Users (Username,Password) VALUES (?,?)", (Username),(password)) 
     //Takes username and passwords and adds them to the db
 

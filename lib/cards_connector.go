@@ -1,4 +1,4 @@
-package lib 
+package main
 
 import(
 	"database/sql"
@@ -16,7 +16,10 @@ type card_data struct {
 func Add_card(Username string, Question string, Answer string) bool{
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
-	if err != nil {panic(err)}
+	if err != nil {
+	panic(err)
+	return false
+	}
 	add,err := db.Query("INSERT INTO Cards (Username,Question,Answer) VALUES (?,?,?)", (Username),(Question),(Answer)) 
     //Takes username and passwords and adds them to the db
 	if err != nil {
@@ -27,5 +30,23 @@ func Add_card(Username string, Question string, Answer string) bool{
     defer db.Close()
     return true 
 }
+
+func Delete_order(Username string, Question string, Answer string) bool { 
+	fmt.Println("Starting server")
+	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
+	if err != nil {
+	panic(err)
+	return false
+	}
+	delete1,err := db.Exec("DELETE FROM Cards WHERE Username = ? AND Question = ? AND Answer = ? ",(Username),(Question),(Answer))
+	if err != nil{
+		panic(err)
+		return false
+	}
+	fmt.Println(delete1)
+	defer db.Close()
+	return true
+}
+
 func main(){
 }
