@@ -11,7 +11,7 @@ type user_data struct {
 
 
 //Adds user+password into Users table
-func add_user( Username string,  password string) bool{
+func Add_user( Username string,  password string) bool{
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {
@@ -45,7 +45,7 @@ func Sign_user_in( user string, password string) bool{
     return exists
 }
 //Checks to see if user already exists
-func existing_user(user string) bool{
+func Existing_user(user string) bool{
     fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {panic(err)}

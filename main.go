@@ -38,11 +38,32 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 	if proceed == true{
 		var tpl = template.Must(template.ParseFiles("templates/index.html"))
 		tpl.Execute(w,nil)
+	}else{
+		var tplt = template.Must(template.ParseFiles("templates/error.html"))
+		tplt.Execute(w,nil)	
 	}
 }
+
+func create_user(w http.ResponseWriter, r *http.Request){
+	r.ParseForm()
+	var username = r.Form["Username"]
+	var password = r.Form["pswrd"]
+	var existing_user bool = L.Existing_user(username[0])
+	if existing_user == true{
+		var tplt = template.Must(template.ParseFiles("templates/error.html"))
+		tplt.Execute(w,nil)	
+	}
+	var proceed bool = L.Add_user(username[0],password[0])
+	if proceed == true{
+		var tplt = template.Must(template.ParseFiles("templates/index.html"))
+		tplt.Execute(w,nil)	
+	}
+}
+
 func main(){
 	http.HandleFunc("/", login)
 	http.HandleFunc("/sign-up", sign_up)
-    http.HandleFunc("/login_user", login_query )
+	http.HandleFunc("/login_user", login_query )
+	http.HandleFunc("/newuser", create_user)
 	http.ListenAndServe(":8000",nil)
 }
