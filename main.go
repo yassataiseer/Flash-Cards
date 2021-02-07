@@ -8,10 +8,14 @@ import(
 	L "./lib"
 )
 type user_data struct {
+//User data struct that acts like a template
+//This template is the used to add all user-name data
     Username1 ,Password1 string
 } 
 
 func db_connect(){
+	//Connects to database
+	// Not reallyy sure why this is here but is necessary for the functioning of the app :/
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
 	if err != nil {
@@ -21,20 +25,28 @@ func db_connect(){
 	defer db.Close()
 	fmt.Println("Connected!")
 }
+
 func sign_up(w http.ResponseWriter, r*http.Request){
+	// redirects the user to sign-up.html
 	var tpl = template.Must(template.ParseFiles("templates/sign-up.html"))
 	tpl.Execute(w, nil)
  }
  func login(w http.ResponseWriter, r*http.Request){
+	// redirects the user to login.html
 	var tpl = template.Must(template.ParseFiles("templates/login.html"))
 	tpl.Execute(w, nil)
  }
  func login_query(w http.ResponseWriter, r *http.Request){
+	// Checks users credentails when loggin in
 	r.ParseForm()
 	var username  = r.Form["Username"]
 	var pswd  = r.Form["pswrd"]
+	// grab user data(username&password)
 	fmt.Println(username[0],pswd)
 	var proceed bool = L.Sign_user_in(username[0],pswd[0])
+	//Arguments passed into function Sign_user_in in lib file(users_connector.go)
+	// This function returns true or false of the credentials 
+	// This will be used to redirect the user
 	if proceed == true{
 		var tpl = template.Must(template.ParseFiles("templates/index.html"))
 		tpl.Execute(w,nil)
@@ -45,15 +57,22 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 }
 
 func create_user(w http.ResponseWriter, r *http.Request){
+	// Takes user data from sign-up.html and makes user
 	r.ParseForm()
 	var username = r.Form["Username"]
 	var password = r.Form["pswrd"]
+	//Grabs data from from
 	var existing_user bool = L.Existing_user(username[0])
+	//Arguments passed into function Existing_User in lib file(users_connector.go)
+	// This function checks to see if the username already exists if so will redirect user
 	if existing_user == true{
 		var tplt = template.Must(template.ParseFiles("templates/error.html"))
 		tplt.Execute(w,nil)	
 	}
 	var proceed bool = L.Add_user(username[0],password[0])
+	// if the username doesnt exist it will be added 
+	//into function Add_user in lib file(users_connector.go)
+	//Then will be redirected
 	if proceed == true{
 		var tplt = template.Must(template.ParseFiles("templates/index.html"))
 		tplt.Execute(w,nil)	
@@ -61,7 +80,8 @@ func create_user(w http.ResponseWriter, r *http.Request){
 }
 
 func main(){
-	http.HandleFunc("/", login)
+	//Main function simply handles routing
+	http.HandleFunc("/", login) 
 	http.HandleFunc("/sign-up", sign_up)
 	http.HandleFunc("/login_user", login_query )
 	http.HandleFunc("/newuser", create_user)
