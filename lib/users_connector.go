@@ -66,30 +66,31 @@ func Existing_user(user string) bool{
     defer db.Close()
     return exists//returns the boolean
 }
-
+// Grabs all user data from Users table and returns as struct 
+// The struct is: user_data
 func Grab_user_data() []user_data{
     fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
     if err != nil {panic(err)}
     var query string
-    query = fmt.Sprintf("SELECT * FROM Users")
+    query = fmt.Sprintf("SELECT * FROM Users")//Selects everything from user
     rows,err := db.Query(query)
     if err != nil {panic(err)}
-    user := user_data{}
-    users := []user_data{}
+    user := user_data{} //Fetches data from SQL query line by line 
+    users := []user_data{} //will collect all User data from user and stores the data
     var Username string
     var Password string
     var id int
+    // variables for collection data when scanning
     for rows.Next(){
-        err := rows.Scan(&Username,&Password,&id)
+        err := rows.Scan(&Username,&Password,&id)//Scanning the data
         if err != nil {panic(err)}
-        user.Username1 = Username
+        user.Username1 = Username //Add resulted data to user struct
         user.Password1 = Password
-
-        users = append(users, user)
+        users = append(users, user) // This user struct is then added into the final users structures
     }
     defer db.Close()
-    return (users)
+    return (users) //Finally returns the structure
 
 }
 
