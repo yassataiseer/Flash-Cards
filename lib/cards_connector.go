@@ -30,7 +30,8 @@ func Add_card(Username string, Question string, Answer string) bool{
     defer db.Close()
     return true 
 }
-
+//Deletes order when given Username,Question, String
+// Returns True or False
 func Delete_order(Username string, Question string, Answer string) bool { 
 	fmt.Println("Starting server")
 	db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
@@ -39,6 +40,7 @@ func Delete_order(Username string, Question string, Answer string) bool {
 	return false
 	}
 	delete1,err := db.Exec("DELETE FROM Cards WHERE Username = ? AND Question = ? AND Answer = ? ",(Username),(Question),(Answer))
+	//Deletes query where the Username,Question and answer match
 	if err != nil{
 		panic(err)
 		return false
