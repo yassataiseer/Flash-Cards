@@ -57,26 +57,27 @@ func Grab_card(Username string) []card_data{
 	if err != nil {
 	panic(err)	}
 	var  query string
-	query = fmt.Sprintf("SELECT * FROM Users WHERE Username = '%s'",(Username))//Selects everything from user
+	query = fmt.Sprintf("SELECT * FROM Cards WHERE Username = '%s'",(Username))//Selects everything from user
     rows,err := db.Query(query)
 	fmt.Println("HELLLLLLLOOOOOO")
     if err != nil {panic(err)}
     card := card_data{} //Fetches cards from SQL query line by line 
     cards := []card_data{} //will collect all the card data from the "card" array and store the data
+	var username string
 	var question string
 	var answer string 
 	var id int
     for rows.Next(){
-        err := rows.Scan(&question,&answer,&id)//Scanning the data
+        err := rows.Scan(&username,&question,&answer,&id)//Scanning the data
         if err != nil {panic(err)}
-        card.Question = question //Add resulted data to card_data struct
+        card.Question = question+"|" //Add resulted data to card_data struct
         card.Answer = answer
         cards = append(cards, card) // This card_data struct is then added into the final users structures
-    }
+	}
     defer db.Close()
     return (cards) //Finally returns the structure
 }
 
 func main(){
-	fmt.Println(Grab_card("Yassa Taiseer"))
+	
 }
