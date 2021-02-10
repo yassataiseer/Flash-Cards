@@ -68,15 +68,17 @@ func create_user(w http.ResponseWriter, r *http.Request){
 	if existing_user == true{
 		var tplt = template.Must(template.ParseFiles("templates/error.gohtml"))
 		tplt.Execute(w,nil)	
+	}else{
+		var proceed bool = L.Add_user(username[0],password[0])
+		// if the username doesnt exist it will be added 
+		//into function Add_user in lib file(users_connector.go)
+		//Then will be redirected
+		if proceed == true{
+			var tplt = template.Must(template.ParseFiles("templates/index.gohtml"))
+			tplt.Execute(w,nil)	
+		}
 	}
-	var proceed bool = L.Add_user(username[0],password[0])
-	// if the username doesnt exist it will be added 
-	//into function Add_user in lib file(users_connector.go)
-	//Then will be redirected
-	if proceed == true{
-		var tplt = template.Must(template.ParseFiles("templates/index.gohtml"))
-		tplt.Execute(w,nil)	
-	}
+
 }
 
 func main(){
