@@ -1,4 +1,4 @@
-package main
+package lib
 
 import(
 	"database/sql"
@@ -79,5 +79,5 @@ func Grab_card(Username string) []card_data{
 }
 
 func main(){
-	
+
 }

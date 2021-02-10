@@ -28,12 +28,12 @@ func db_connect(){
 
 func sign_up(w http.ResponseWriter, r*http.Request){
 	// redirects the user to sign-up.html
-	var tpl = template.Must(template.ParseFiles("templates/sign-up.html"))
+	var tpl = template.Must(template.ParseFiles("templates/sign-up.gohtml"))
 	tpl.Execute(w, nil)
  }
  func login(w http.ResponseWriter, r*http.Request){
 	// redirects the user to login.html
-	var tpl = template.Must(template.ParseFiles("templates/login.html"))
+	var tpl = template.Must(template.ParseFiles("templates/login.gohtml"))
 	tpl.Execute(w, nil)
  }
  func login_query(w http.ResponseWriter, r *http.Request){
@@ -48,10 +48,10 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 	// This function returns true or false of the credentials 
 	// This will be used to redirect the user
 	if proceed == true{
-		var tpl = template.Must(template.ParseFiles("templates/index.html"))
+		var tpl = template.Must(template.ParseFiles("templates/index.gohtml"))
 		tpl.Execute(w,nil)
 	}else{
-		var tplt = template.Must(template.ParseFiles("templates/error.html"))
+		var tplt = template.Must(template.ParseFiles("templates/error.gohtml"))
 		tplt.Execute(w,nil)	
 	}
 }
@@ -66,7 +66,7 @@ func create_user(w http.ResponseWriter, r *http.Request){
 	//Arguments passed into function Existing_User in lib file(users_connector.go)
 	// This function checks to see if the username already exists if so will redirect user
 	if existing_user == true{
-		var tplt = template.Must(template.ParseFiles("templates/error.html"))
+		var tplt = template.Must(template.ParseFiles("templates/error.gohtml"))
 		tplt.Execute(w,nil)	
 	}
 	var proceed bool = L.Add_user(username[0],password[0])
@@ -74,7 +74,7 @@ func create_user(w http.ResponseWriter, r *http.Request){
 	//into function Add_user in lib file(users_connector.go)
 	//Then will be redirected
 	if proceed == true{
-		var tplt = template.Must(template.ParseFiles("templates/index.html"))
+		var tplt = template.Must(template.ParseFiles("templates/index.gohtml"))
 		tplt.Execute(w,nil)	
 	}
 }
