@@ -10,8 +10,16 @@ import(
 type user_data struct {
 //User data struct that acts like a template
 //This template is the used to add all user-name data
-    Username1 ,Password1 string
+    Username1 string
+	Password1 string
 } 
+type card_data struct {
+	//card data struct that acts like a template
+	//This template is the used to add all card data
+	// This is used in the function: 
+		Question string
+		Answer string
+}
 
 func db_connect(){
 	//Connects to database
