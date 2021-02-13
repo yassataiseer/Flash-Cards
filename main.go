@@ -57,7 +57,30 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 	// This will be used to redirect the user
 	if proceed == true{
 		var tpl = template.Must(template.ParseFiles("templates/index.gohtml"))
-		tpl.Execute(w,nil)
+		fmt.Println("Starting server")
+		db,err := sql.Open("mysql","root:new_password@tcp(127.0.0.1:3306)/flashcarddb")
+		if err != nil {
+		panic(err)	}
+		var  query string
+		query = fmt.Sprintf("SELECT * FROM Cards WHERE Username = '%s'",(username[0]))//Selects everything from user
+		rows,err := db.Query(query)
+		if err != nil {panic(err)}
+		var cards []card_data
+		//cards := []card_data{} //will collect all the card data from the "card" array and store the data
+		var USERNAME string
+		var question string
+		var answer string 
+		var id int
+		for rows.Next(){
+			err := rows.Scan(&USERNAME,&question,&answer,&id)//Scanning the data
+			if err != nil {panic(err)}
+			//card.Question = question+//Add resulted data to card_data struct
+			//card.Answer = answer
+			cards = append(cards, card_data{Question:question,Answer:answer}) // This card_data struct is then added into the final users structures
+		}
+		defer db.Close()
+		fmt.Println(cards)
+		tpl.Execute(w,cards)
 	}else{
 		var tplt = template.Must(template.ParseFiles("templates/error.gohtml"))
 		tplt.Execute(w,nil)	
