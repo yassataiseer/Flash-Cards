@@ -72,7 +72,22 @@ func delete(w http.ResponseWriter, r *http.Request){
 	r.ParseForm()
 	var card_info string =  r.FormValue("card_info")
 	var sorted_data = strings.Split(card_info,"~")
-	fmt.Println(sorted_data[0])
+	//fmt.Println(sorted_data[0])
+	var cookie , _ = r.Cookie("Username")
+	var delete_card = L.Delete_card(cookie.Value,sorted_data[0],sorted_data[1])
+	if delete_card == true{
+		var tpl = template.Must(template.ParseFiles("templates/index.gohtml"))
+		var cookie , _ = r.Cookie("Username")
+		//Grab cookie value which is the User's Username
+		fmt.Println(cookie.Value)
+		var Data = L.Grab_card(cookie.Value)
+		//Takes the cookie value and passes it into Lib File (cards_connector.go)
+		//Grab_data gets all card data for the curent user
+		tpl.Execute(w,Data)//Passes it into index.gohtml
+	} else{
+		var tpl = template.Must(template.ParseFiles("templates/error.gohtml"))
+		tpl.Execute(w,nil)
+	}
 }
 func create_user(w http.ResponseWriter, r *http.Request){
 	// Takes user data from sign-up.html and makes user
