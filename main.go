@@ -47,7 +47,8 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 		// Grabs card data from lib file(cards_connector.go)
 		user := http.Cookie{
 			Name: username[0]}
-		//var c = user.Name
+		var c = user.Name
+		fmt.Println(c)
 		tpl.Execute(w,Data)
 	}else{
 		var tplt = template.Must(template.ParseFiles("templates/error.gohtml"))
