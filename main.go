@@ -29,7 +29,6 @@ func db_connect(){
 	if err != nil {
 		panic(err)
 	}
-	
 	defer db.Close()
 	fmt.Println("Connected!")
 }
@@ -58,7 +57,11 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 	if proceed == true{
 		var tpl = template.Must(template.ParseFiles("templates/index.gohtml"))
 		var Data = L.Grab_card(username[0])
-		fmt.Println(Data)
+		// Grabs card data from lib file(cards_connector.go)
+		user := http.Cookie{
+			Name: username[0]}
+		var c = user.Name
+		fmt.Println("USER COOKIE SESSION" + c)
 		tpl.Execute(w,Data)
 	}else{
 		var tplt = template.Must(template.ParseFiles("templates/error.gohtml"))
@@ -88,7 +91,6 @@ func create_user(w http.ResponseWriter, r *http.Request){
 			tplt.Execute(w,nil)	
 		}
 	}
-
 }
 
 func main(){
