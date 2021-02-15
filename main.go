@@ -46,16 +46,26 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 		var Data = L.Grab_card(username[0])
 		// Grabs card data from lib file(cards_connector.go)
 		user := http.Cookie{
-			Name: username[0]}
-		var c = user.Name
-		fmt.Println(c)
+			Name: "Username", Value: username[0],
+		}
+		http.SetCookie(w, &user)
+		//var c = user.Value
+		fmt.Println(user)
 		tpl.Execute(w,Data)
 	}else{
 		var tplt = template.Must(template.ParseFiles("templates/error.gohtml"))
 		tplt.Execute(w,nil)	
 	}
 }
-
+func route_flashcard(w http.ResponseWriter, r *http.Request){
+	var tpl = template.Must(template.ParseFiles("templates/index.gohtml"))
+	var cookie , _ = r.Cookie("Username")
+	fmt.Println("+++++++++++++")
+	fmt.Println(cookie.Value)
+	fmt.Println("+++++++++++++")
+	var Data = L.Grab_card(cookie.Value)
+	tpl.Execute(w,Data)
+}
 func create_user(w http.ResponseWriter, r *http.Request){
 	// Takes user data from sign-up.html and makes user
 	r.ParseForm()
@@ -84,7 +94,8 @@ func main(){
 	//Main function simply handles routing
 	http.HandleFunc("/", login) 
 	http.HandleFunc("/sign-up", sign_up)
-	http.HandleFunc("/login_user", login_query )
+	http.HandleFunc("/login_user", login_query)
 	http.HandleFunc("/newuser", create_user)
+	http.HandleFunc("/cards",route_flashcard)
 	http.ListenAndServe(":8000",nil)
 }
