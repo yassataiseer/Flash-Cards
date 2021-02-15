@@ -60,11 +60,12 @@ func sign_up(w http.ResponseWriter, r*http.Request){
 func route_flashcard(w http.ResponseWriter, r *http.Request){
 	var tpl = template.Must(template.ParseFiles("templates/index.gohtml"))
 	var cookie , _ = r.Cookie("Username")
-	fmt.Println("+++++++++++++")
+	//Grab cookie value which is the User's Username
 	fmt.Println(cookie.Value)
-	fmt.Println("+++++++++++++")
 	var Data = L.Grab_card(cookie.Value)
-	tpl.Execute(w,Data)
+	//Takes the cookie value and passes it into Lib File (cards_connector.go)
+	//Grab_data gets all card data for the curent user
+	tpl.Execute(w,Data)//Passes it into index.gohtml
 }
 func create_user(w http.ResponseWriter, r *http.Request){
 	// Takes user data from sign-up.html and makes user
@@ -97,5 +98,6 @@ func main(){
 	http.HandleFunc("/login_user", login_query)
 	http.HandleFunc("/newuser", create_user)
 	http.HandleFunc("/cards",route_flashcard)
+	//http.HandleFunc("/delete_order",delete)
 	http.ListenAndServe(":8000",nil)
 }
