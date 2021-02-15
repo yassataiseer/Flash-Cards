@@ -21,18 +21,6 @@ type card_data struct {
 		Answer string
 }
 
-func db_connect(){
-	//Connects to database
-	// Not reallyy sure why this is here but is necessary for the functioning of the app :/
-	fmt.Println("Starting server")
-	db,err := sql.Open("mysql","root:root@tcp(127.0.0.1:3306)/flashcarddb")
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
-	fmt.Println("Connected!")
-}
-
 func sign_up(w http.ResponseWriter, r*http.Request){
 	// redirects the user to sign-up.html
 	var tpl = template.Must(template.ParseFiles("templates/sign-up.gohtml"))
