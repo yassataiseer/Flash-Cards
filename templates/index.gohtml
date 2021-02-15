@@ -168,14 +168,14 @@ table {
 <h1>Hover Over a card to get the answer</h1>
 <form name = "delete_order" action = "/delete_order" method="POST" class="modal-content">
 {{ range . }}
-<div class="flip-card">
-  <div class="flip-card-inner">
-    <div class="flip-card-front">
-    <h2>{{.Question}}</h2>
+<div class = "flip-card">
+  <div class = "flip-card-inner">
+    <div class = "flip-card-front">
+    <h2 name = "question" value = "{{.Question}}" >{{.Question}}</h2>
     </div>
     <div class="flip-card-back">
-      <h2>{{.Answer}}</h2> 
-      <button name="delete" class="button1">Delete</button>
+      <h2 name = "answer" value = "{{.Answer}}">{{.Answer}}</h2> 
+      <button name = "card_info" value ="{{.Question}}~{{.Answer}}" class = "button1">Delete</button>
     </div>
   </div>
 </div>

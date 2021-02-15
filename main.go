@@ -5,6 +5,7 @@ import(
 	"html/template"
 	"net/http"
 	L "./lib"
+	"strings"
 )
 type user_data struct {
 //User data struct that acts like a template
@@ -67,6 +68,12 @@ func route_flashcard(w http.ResponseWriter, r *http.Request){
 	//Grab_data gets all card data for the curent user
 	tpl.Execute(w,Data)//Passes it into index.gohtml
 }
+func delete(w http.ResponseWriter, r *http.Request){
+	r.ParseForm()
+	var card_info string =  r.FormValue("card_info")
+	var sorted_data = strings.Split(card_info,"~")
+	fmt.Println(sorted_data[0])
+}
 func create_user(w http.ResponseWriter, r *http.Request){
 	// Takes user data from sign-up.html and makes user
 	r.ParseForm()
@@ -98,6 +105,6 @@ func main(){
 	http.HandleFunc("/login_user", login_query)
 	http.HandleFunc("/newuser", create_user)
 	http.HandleFunc("/cards",route_flashcard)
-	//http.HandleFunc("/delete_order",delete)
+	http.HandleFunc("/delete_order",delete)
 	http.ListenAndServe(":8000",nil)
 }
