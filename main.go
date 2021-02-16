@@ -81,6 +81,8 @@ func delete(w http.ResponseWriter, r *http.Request){
 		//Grab cookie value which is the User's Username
 		fmt.Println(cookie.Value)
 		var Data = L.Grab_card(cookie.Value)
+		
+		fmt.Println("hello",Data)
 		//Takes the cookie value and passes it into Lib File (cards_connector.go)
 		//Grab_data gets all card data for the curent user
 		tpl.Execute(w,Data)//Passes it into index.gohtml
@@ -92,6 +94,26 @@ func delete(w http.ResponseWriter, r *http.Request){
 func card_form(w http.ResponseWriter, r *http.Request){
 	var tplt = template.Must(template.ParseFiles("templates/card_builder.gohtml"))
 	tplt.Execute(w,nil)	
+}
+func card_builder(w http.ResponseWriter, r *http.Request){
+	//Will grab data from form and make Q&A card
+	r.ParseForm()
+	var Question string = r.FormValue("Question")
+	var Answer string = r.FormValue("Answer")
+	var cookie,_ = r.Cookie("Username")//grabs cookie data
+	//Whith the question,answer,and username we
+	//will now pass the data into 
+	//cards_connector.go in lib file 
+	//this function is called Add_card
+	var process = L.Add_card(cookie.Value,Question,Answer)
+	if process == true{
+				
+		var tpl = template.Must(template.ParseFiles("templates/index.gohtml"))
+		var Data = L.Grab_card(cookie.Value)
+		//Takes the cookie value and passes it into Lib File (cards_connector.go)
+		//Grab_data gets all card data for the curent user
+		tpl.Execute(w,Data)//Passes it into index.gohtml
+	}
 }
 func create_user(w http.ResponseWriter, r *http.Request){
 	// Takes user data from sign-up.html and makes user
@@ -110,6 +132,12 @@ func create_user(w http.ResponseWriter, r *http.Request){
 		// if the username doesnt exist it will be added 
 		//into function Add_user in lib file(users_connector.go)
 		//Then will be redirected
+		user := http.Cookie{
+			Name: "Username", Value: username[0],
+		}
+		http.SetCookie(w, &user)
+		//var c = user.Value
+		fmt.Println(user)
 		if proceed == true{
 			var tplt = template.Must(template.ParseFiles("templates/index.gohtml"))
 			tplt.Execute(w,nil)	
@@ -126,5 +154,6 @@ func main(){
 	http.HandleFunc("/cards",route_flashcard)
 	http.HandleFunc("/delete_order",delete)
 	http.HandleFunc("/card_form",card_form)
+	http.HandleFunc("/card_builder",card_builder)
 	http.ListenAndServe(":8000",nil)
 }

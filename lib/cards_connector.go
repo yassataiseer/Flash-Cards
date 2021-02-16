@@ -79,5 +79,5 @@ func Grab_card(Username string) []card_data{
 }
 
 func main(){
-	fmt.Println(Grab_card("Yassa Taiseer"))
+	//fmt.Println(Add_card("Yassa Taiseer","Hows life","Dunno tbh"))
 }

@@ -82,7 +82,7 @@ body {
 @import url('https://fonts.googleapis.com/css?family=Inconsolata|Lato:300,400,700');
 html, body, h1, h2, h3, h4, h5, h6, p, li, ol, ul, pre {
 	margin: 0;
-	padding: 0;
+	padding: 10;
 }
 html, body { min-height: 100%; }
 
@@ -253,14 +253,15 @@ code {
 <header id="header">
 	<nav class="links" style="--items: 5;" >
 <a href="/cards" >View Flashcards </a>
-<a href = "card_form">Make A new Flashcard</a>
+<a href = "/card_form">Make A new Flashcard</a>
 
 </nav>
 </header>
+<form name = "delete_order" action = "/delete_order" method="POST" class="modal-content">
+
 <div class="content">
 <h1>Hover Over a card to get the answer(s)</h1>
 <br>
-<form name = "delete_order" action = "/delete_order" method="POST" class="modal-content">
 {{ range . }}
 <br>
 <div class = "flip-card">
