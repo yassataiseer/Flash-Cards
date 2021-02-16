@@ -89,6 +89,10 @@ func delete(w http.ResponseWriter, r *http.Request){
 		tpl.Execute(w,nil)
 	}
 }
+func card_form(w http.ResponseWriter, r *http.Request){
+	var tplt = template.Must(template.ParseFiles("templates/card_builder.gohtml"))
+	tplt.Execute(w,nil)	
+}
 func create_user(w http.ResponseWriter, r *http.Request){
 	// Takes user data from sign-up.html and makes user
 	r.ParseForm()
@@ -121,5 +125,6 @@ func main(){
 	http.HandleFunc("/newuser", create_user)
 	http.HandleFunc("/cards",route_flashcard)
 	http.HandleFunc("/delete_order",delete)
+	http.HandleFunc("/card_form",card_form)
 	http.ListenAndServe(":8000",nil)
 }
